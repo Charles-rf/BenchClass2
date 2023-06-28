@@ -6,7 +6,7 @@
 
 ## **Description**
 
-This BenchClass web application allows users to find, register, and participate in bench class sessions. It leverages several technologies and components to provide a seamless experience. Here are the key components of the BenchClass app:
+This [BenchClass webapp]((https://benchclass.azurewebsites.net/)) allows users to find, register, and participate in bench class sessions. It leverages several technologies and components to provide a seamless experience. Here are the key components of the BenchClass app:
 
 * **GitHub Actions:** GitHub Actions is used for continuous integration and deployment (CI/CD). It automates the build, test, and deployment processes whenever new code is pushed to the repository. This ensures that the latest changes are always deployed to the production environment.
 
