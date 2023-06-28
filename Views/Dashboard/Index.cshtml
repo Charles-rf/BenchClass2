@@ -1,0 +1,302 @@
+﻿@using BenchClass.ViewModels;
+@model DashboardViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Modern Business - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+        <!-- Projects Section-->
+        <section class="py-5">
+        <div class="container px-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 text-center">
+                    <div class="d-flex justify-content-center gap-3">
+                        <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" asp-area="" asp-controller="Gym" asp-action="Create">Create Gym</a>
+                        <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" asp-area="" asp-controller="GymClass" asp-action="Create">Create Class</a>
+                        <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" asp-area="" asp-controller="Dashboard" asp-action="EditUserProfile">Edit Profile</a>
+                    </div>
+                </div>
+
+
+
+                <div class="text-center mb-5">
+                        <br>
+                        <br>
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Gyms</span></h1>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-11 col-xl-9 col-xxl-8 d-flex flex-column align-items-center">
+                            @if (Model.Gyms.Count == 0)
+                            {
+                                <p><strong>You don't have any gyms in your dashboard</strong></p>
+                                <br>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model.Gyms)
+                                {
+                                    <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 1000px; margin: 0 auto;">
+                                        <div class="card-body p-0">
+                                            <div class="d-flex align-items-center">
+                                                <div class="p-4" style="flex: 1;">
+                                                    <small class="text-body-secondary">@item.GymCategory</small>
+                                                    <p></p>
+                                                    <h2>
+                                                        <a class="fw-bolder text-decoration-none text-dark" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id">@item.Title</a>
+                                                    </h2>
+                                                    <p>@item.Description</p>
+                                                    <br>
+                                                    <div class="btn-group d-flex justify-content-center">
+                                                        <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                                        @if (User.Identity.IsAuthenticated)
+                                                        {
+                                                            <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                            <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <img class="img-fluid" src="@item.Image" style="max-width: 500px; height: auto;" alt="..." />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            
+                    </div>
+                </div>
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Gym Classes</span></h1>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        @if (Model.GymClasses.Count == 0)
+                        {
+                            <p><strong>You don't have any classes in your dashboard!</strong></p>
+                            <br>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.GymClasses)
+                            {
+                                <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 1000px; margin: 0 auto;">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex align-items-center">
+                                            <div class="p-4" style="flex: 1;">
+                                                <small class="text-body-secondary">@item.StrengthCategory</small>
+                                                <p></p>
+                                                <h2>
+                                                    <a class="fw-bolder text-decoration-none text-dark" asp-controller="GymClass" asp-action="Detail" asp-route-id="@item.Id">@item.Title</a>
+                                                </h2>
+                                                <p>@item.Description</p>
+                                                <br>
+                                                <div class="btn-group d-flex justify-content-center">
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                        <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <img class="img-fluid" src="@item.Image" style="max-width: 500px; height: auto;" alt="..." />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to action section-->
+        <section class="py-5 bg-gradient-primary-to-secondary text-white">
+            <div class="container px-5 my-5">
+                <div class="text-center">
+                    <h2 class="display-4 fw-bolder mb-4">Would you like to shape your future?</h2>
+                    <h2 class="display-4 fw-bolder mb-4">Join us!</h2>
+
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" asp-area="" asp-controller="Account" asp-action="Register" style="font-size: 16px">REGISTER</a>
+                    }
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+</body>
+</html>
+
+
+
+
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Modern Business - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="d-flex flex-column h-100">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 bg-white">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="height: auto; width: 220px;">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a class="btn btn-sm btn-outline-success w-100" asp-area="" asp-controller="Gym" asp-action="Create">Create Gym</a>
+                        </li>
+                        <br>
+                        <li>
+                            <a type="button" class="btn btn-sm btn-outline-success w-100" asp-area="" asp-controller="GymClass" asp-action="Create">Create Class</a>
+                        </li>
+                        <br>
+                        <li>
+                            <a type="button" class="btn btn-sm btn-outline-success w-100" asp-area="" asp-controller="Dashboard" asp-action="EditUserProfile">Edit Profile</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+
+            <div class="col-10">
+                <main class="flex-shrink-0">
+                    <!-- Projects Section-->
+                    <section class="py-5">
+                        <div class="container px-5 mb-5">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 col-xl-6 text-center">
+                                    <div class="text-center mb-5">
+
+                                        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Gyms</span></h1>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            @foreach (var item in Model.Gyms)
+                                            {
+                                                <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 1000px; margin: 0 auto;">
+                                                    <div class="card-body p-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="p-4" style="flex: 1;">
+                                                                <small class="text-body-secondary">@item.GymCategory</small>
+                                                                <p></p>
+                                                                <h2>
+                                                                    <a class="fw-bolder text-decoration-none text-dark" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id">@item.Title</a>
+                                                                </h2>
+                                                                <p>@item.Description</p>
+                                                                <br>
+                                                                <div class="btn-group d-flex justify-content-center">
+                                                                    <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                                                    @if (User.Identity.IsAuthenticated)
+                                                                    {
+                                                                        <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                                        <a class="btn btn-sm btn-outline-success" asp-controller="Gym" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <img class="img-fluid" src="@item.Image" style="max-width: 500px; height: auto;" alt="..." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-5">
+                                        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Gym Classes</span></h1>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            @foreach (var item in Model.GymClasses)
+                                            {
+                                                <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 1000px; margin: 0 auto;">
+                                                    <div class="card-body p-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="p-4" style="flex: 1;">
+                                                                <small class="text-body-secondary">@item.StrengthCategory</small>
+                                                                <p></p>
+                                                                <h2>
+                                                                    <a class="fw-bolder text-decoration-none text-dark" asp-controller="GymClass" asp-action="Detail" asp-route-id="@item.Id">@item.Title</a>
+                                                                </h2>
+                                                                <p>@item.Description</p>
+                                                                <br>
+                                                                <div class="btn-group d-flex justify-content-center">
+                                                                    <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Detail" asp-route-id="@item.Id">View</a>
+                                                                    @if (User.Identity.IsAuthenticated)
+                                                                    {
+                                                                        <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                                        <a class="btn btn-sm btn-outline-success" asp-controller="GymClass" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <img class="img-fluid" src="@item.Image" style="max-width: 500px; height: auto;" alt="..." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </main>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+
+*@

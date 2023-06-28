@@ -1,0 +1,259 @@
+﻿@using BenchClass.ViewModels;
+@model List<UserViewModel>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Modern Business - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+        <!-- Projects Section-->
+        <section class="py-5">
+            <div class="container px-5 mb-5">
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Users</span></h1>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-11 col-xl-9 col-xxl-8 d-flex flex-column align-items-center">
+                        @foreach (var user in Model)
+                        {
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 1000px">
+                                <div class="card-body p-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="p-4" style="flex: 1;">
+                                            <p>
+                                                @{
+                                                    var benchMax = user.BenchMax == null ? "?" : user.BenchMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Bench:</small>
+                                                    <small class="text-body-secondary">@benchMax</small>
+
+                                                    var squatMax = user.SquatMax == null ? "?" : user.SquatMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Squat:</small>
+                                                    <small class="text-body-secondary">@squatMax</small>
+
+                                                    var deadliftMax = user.DeadliftMax == null ? "?" : user.DeadliftMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Deadlift:</small>
+                                                    <small class="text-body-secondary">@deadliftMax</small>
+                                                }
+                                            </p>
+                                            <p></p>
+                                            <h2>
+                                                <a class="fw-bolder text-decoration-none text-dark" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">@user.UserName</a>
+                                            </h2>
+
+                                            @{
+                                                var userDescription = user.UserDescription == null ? "Hi, I'm " + user.UserName + " and I love this app!" : user.UserDescription;
+                                                <p>@userDescription</p>
+                                            }
+
+                                            <br>
+                                            <div class="btn-group d-flex justify-content-center">
+                                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                                {
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">View</a>
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">View</a>
+                                                }
+                                            </div>
+                                        </div>
+                                        @if(user.ProfileImageUrl == null)
+                                        {
+                                            <img class="img-fluid" src="~/assets/BenchClass.png" style="max-width: 500px; height: auto;" alt="">
+
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid" src="@user.ProfileImageUrl" style="max-width: 500px; height: auto;" alt="">
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            @*<div class="card overflow-hidden shadow rounded-4 border-0 mb-5" style="width: 750px;">
+                        <div class="card-body p-0">
+                        <div class="d-flex align-items-center">
+                        <div class="p-4" style="flex: 1;">
+                        <small class="text-body-secondary">@item.GymCategory</small>
+                        <p></p>
+                        <h2 class="fw-bolder">@item.Title</h2>
+
+                        <p>@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                        @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <a type="btn btn-success" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a asp-controller="Gym" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a asp-controller="Gym" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
+                        }
+                        else
+                        {
+                        <div class="btn-lg d-flex justify-content-center align-items-center">
+                        <a class="btn btn-primary btn-lg px-3 py-1.5 me-sm-3 fs-6" asp-controller="Gym" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">View</a>
+
+                        </div>
+
+                        }
+                        </div>
+                        </div>
+                        </div>
+                        <img class="img-fluid" src="@item.Image" style="max-width: 500px; height: auto;" alt="..." />
+                        </div>
+                        </div>
+                        </div>*@
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to action section-->
+        <section class="py-5 bg-gradient-primary-to-secondary text-white">
+            <div class="container px-5 my-5">
+                <div class="text-center">
+                    <h2 class="display-4 fw-bolder mb-4">Would you like to shape your future?</h2>
+                    <h2 class="display-4 fw-bolder mb-4">Join us!</h2>
+
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" asp-area="" asp-controller="Account" asp-action="Register" style="font-size: 16px">REGISTER</a>
+                    }
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+</body>
+</html>
+
+
+
+
+
+@*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Modern Business - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+        <!-- Projects Section-->
+        <section class="py-5">
+            <div class="container px-5 mb-5">
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Users</span></h1>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    @foreach (var user in Model)
+                    {
+                        <div class="col mb-4">
+                            <div class="card overflow-hidden shadow rounded-4 border-0" style="height: 300px;">
+                                <div class="card-body p-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="p-4" style="flex: 1;">
+                                            <p>
+                                                @{
+                                                    var benchMax = user.BenchMax == null ? "?" : user.BenchMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Bench:</small>
+                                                    <small class="text-body-secondary">@benchMax</small>
+
+                                                    var squatMax = user.SquatMax == null ? "?" : user.SquatMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Squat:</small>
+                                                    <small class="text-body-secondary">@squatMax</small>
+
+                                                    var deadliftMax = user.DeadliftMax == null ? "?" : user.DeadliftMax.ToString();
+                                                    <small class="text-body-secondary fw-bold">Deadlift:</small>
+                                                    <small class="text-body-secondary">@deadliftMax</small>
+                                                }
+                                            </p>
+                                            <h2>
+                                                <a class="fw-bolder text-decoration-none text-dark" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">@user.UserName</a>
+                                            </h2>
+
+                                            @{
+                                                var userDescription = user.UserDescription == null ? "Hi, I'm " + user.UserName + " and I love this app!" : user.UserDescription;
+                                                <p>@userDescription</p>
+                                            }
+
+                                            <br>
+                                            <div class="btn-group d-flex justify-content-center">
+                                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                                {
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">View</a>
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-sm btn-outline-success" asp-controller="User" asp-action="Detail" asp-route-id="@user.Id">View</a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <img class="img-fluid" src="@user.ProfileImageUrl" style="max-width: 500px; height: auto;" alt="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+</body>
+</html>
+*@
