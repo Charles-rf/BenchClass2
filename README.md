@@ -2,7 +2,7 @@
 
 ## **Website:**
 
-
+![benchClasslogo](./Photo/BenchClassMain.PNG)
 
 ## **Description**
 
