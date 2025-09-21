@@ -1,9 +1,5 @@
 # BenchClass
 
-## **Website:**
-
-![benchClasslogo](./Photo/BenchClassMain.PNG)
-
 ## **Description**
 
 This [BenchClass](https://benchclass.azurewebsites.net/) web application allows users to find, register, and participate in bench class sessions. It leverages several technologies and components to provide a seamless experience. Here are the key components of the BenchClass app:
